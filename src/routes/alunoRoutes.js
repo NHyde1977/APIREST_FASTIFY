@@ -1,15 +1,53 @@
 import alunoController from '../controllers/alunoController.js'
 
+import {
+  alunoBodySchema,
+  alunoParamsSchema
+} from '../schemas/alunoSchemas.js'
+
 async function alunoRoutes(fastify) {
-  fastify.get('/alunos', alunoController.index)
+  fastify.get('/', alunoController.index)
 
-  fastify.get('/alunos/:id', alunoController.show)
+  fastify.get(
+    '/:id',
+    {
+      schema: {
+        params: alunoParamsSchema
+      }
+    },
+    alunoController.show
+  )
 
-  fastify.post('/alunos', alunoController.store)
+  fastify.post(
+    '/',
+    {
+      schema: {
+        body: alunoBodySchema
+      }
+    },
+    alunoController.store
+  )
 
-  fastify.put('/alunos/:id', alunoController.update)
+  fastify.put(
+    '/:id',
+    {
+      schema: {
+        params: alunoParamsSchema,
+        body: alunoBodySchema
+      }
+    },
+    alunoController.update
+  )
 
-  fastify.delete('/alunos/:id', alunoController.delete)
+  fastify.delete(
+    '/:id',
+    {
+      schema: {
+        params: alunoParamsSchema
+      }
+    },
+    alunoController.delete
+  )
 }
 
 export default alunoRoutes
